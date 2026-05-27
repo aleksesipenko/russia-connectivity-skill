@@ -1,0 +1,4 @@
+interface:
+  display_name: "Russia Connectivity"
+  short_description: "Russia-aware VPN, routing, and access workflow"
+  default_prompt: "Use $russia-connectivity to design or troubleshoot access to blocked infrastructure from Russia."
