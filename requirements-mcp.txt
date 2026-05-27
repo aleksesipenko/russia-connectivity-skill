@@ -1,0 +1,1 @@
+telegram-mcp @ git+https://github.com/chigwell/telegram-mcp.git@c64cece33807eccc0055153be35b11f31513e77b

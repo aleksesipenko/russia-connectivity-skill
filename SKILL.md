@@ -26,6 +26,7 @@ Do not use this skill as a generic VPN-buying guide or a one-protocol recommenda
 - Prefer ready-made, community-tested routing lists, rule corpora, utility scripts, and runbooks over bespoke one-off lists.
 - No contour is "done" without runtime contract tests against the user's most important blocked services.
 - Keep public-doc evidence, public empirical evidence, and private field evidence clearly separated in your reasoning.
+- When a configured `telegram-mcp` server is available, use it as the preferred private field-intelligence path. Keep it read-only for this skill unless the user explicitly asks for Telegram mutations.
 - When the situation is ambiguous, give a confidence level and the fastest discriminating next test instead of pretending certainty.
 
 ## On Invocation
@@ -41,11 +42,12 @@ Do not use this skill as a generic VPN-buying guide or a one-protocol recommenda
 9. If the task is a high-agency rollout or repair, read [references/runtime-contracts.md](./references/runtime-contracts.md).
 10. Read [references/runbooks.md](./references/runbooks.md) for the current runbook layer.
 11. Run `python3 scripts/check_sources.py` when you need a quick freshness check of the curated repos and docs.
-12. Run `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py` when you have access to private Telegram exports and need a fresh field pulse.
-13. For structured first-pass diagnosis, prepare a small case JSON and run `python3 scripts/triage_case.py --input case.json`.
-14. Classify the failure mode before choosing a protocol.
-15. Before making a final recommendation, confirm it against at least one official or maintainer source and one empirical source that matches the suspected breakage pattern.
-16. Before declaring a rollout complete, run or define runtime contract checks for the actual services the user cares about.
+12. If `telegram-mcp` is configured, use its read-only tools or run `python3 scripts/telegram_mcp_refresh.py --days 7 --command /path/to/telegram-mcp-command` for a fresh field pulse.
+13. If `telegram-mcp` is not available but the user has another private exporter, run `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py`.
+14. For structured first-pass diagnosis, prepare a small case JSON and run `python3 scripts/triage_case.py --input case.json`.
+15. Classify the failure mode before choosing a protocol.
+16. Before making a final recommendation, confirm it against at least one official or maintainer source and one empirical source that matches the suspected breakage pattern.
+17. Before declaring a rollout complete, run or define runtime contract checks for the actual services the user cares about.
 
 ## High-Agency Build Mode
 
@@ -164,15 +166,17 @@ If Telegram and public sources disagree, do not hide it. Surface the disagreemen
 
 Use this when the task is "what works now", "what are people discussing this week", "which failures are showing up in Russia right now", or "what should we try first before doing more research", and the user has provided or configured a private Telegram exporter.
 
-1. Run `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py`.
-2. Read the generated summary markdown and manifest JSON.
-3. Use the `Freshness` and `Symptom Heatmap` sections first so you do not overweight stale anecdotes.
-4. If the task is diagnosis-heavy, compare the summary against [references/diagnostic-matrix.md](./references/diagnostic-matrix.md).
-5. Start in the right chat:
+1. Prefer the configured `telegram-mcp` MCP server in read-only mode. Use `list_chats`, `list_messages`, `search_messages`, `get_pinned_messages`, and `get_message_context` as needed.
+2. For a repeatable local artifact, run `python3 scripts/telegram_mcp_refresh.py --days 7 --command /path/to/telegram-mcp-command`.
+3. If `telegram-mcp` is unavailable, fall back to `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py`.
+4. Read the generated summary markdown/JSON or direct MCP tool output.
+5. Use the `Freshness` and `Symptom Heatmap` sections first so you do not overweight stale anecdotes.
+6. If the task is diagnosis-heavy, compare the summary against [references/diagnostic-matrix.md](./references/diagnostic-matrix.md).
+7. Start in the right chat:
    - `ITDog Chat` for edge-client and router reality
    - `Обсуждение VPN-протоколов` for server and transport reality
-6. Search by symptom before protocol name.
-7. Treat one anecdote as weak evidence; treat repeated patterns across multiple users as a live signal.
+8. Search by symptom before protocol name.
+9. Treat one anecdote as weak evidence; treat repeated patterns across multiple users as a live signal.
 
 Do not let the Telegram layer replace protocol docs. Use it to steer where to look, what has started failing, which ports or transports are getting discussed, and which workarounds are recurring.
 

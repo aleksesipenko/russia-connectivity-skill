@@ -148,6 +148,8 @@ They also surfaced a practical utility layer worth checking before inventing new
 
 ## How To Use This Layer Safely
 
+- Prefer `chigwell/telegram-mcp` in read-only mode when the MCP server is configured.
+- Never install the unrelated PyPI package named `telegram-mcp`; install the `chigwell/telegram-mcp` GitHub repository or a pinned commit from it.
 - Prefer repeated observations over one loud anecdote.
 - Use Telegram to generate hypotheses and operational priorities.
 - Confirm protocol semantics against official docs.

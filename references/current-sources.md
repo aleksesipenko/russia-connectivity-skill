@@ -123,9 +123,10 @@ When the user has access to relevant field channels, also use [telegram-intel.md
 2. Check the current date and mention it in the answer.
 3. Open the protocol docs relevant to the proposed contour.
 4. Open at least one empirical source that matches the suspected failure pattern.
-5. If a private Telegram layer is relevant and configured, run `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py`.
-6. If routing is involved, confirm the live `runetfreedom` sources rather than quoting old copies.
-7. If the first idea fails, consult the community-tested utility layer before designing a bespoke replacement.
+5. If a private Telegram layer is relevant and `telegram-mcp` is configured, use its read-only tools or run `python3 scripts/telegram_mcp_refresh.py --days 7 --command /path/to/telegram-mcp`.
+6. If `telegram-mcp` is unavailable but a private exporter exists, run `python3 scripts/refresh_telegram_intel.py --days 7 --exporter /path/to/exporter.py`.
+7. If routing is involved, confirm the live `runetfreedom` sources rather than quoting old copies.
+8. If the first idea fails, consult the community-tested utility layer before designing a bespoke replacement.
 
 ## What These Sources Are Good For
 
